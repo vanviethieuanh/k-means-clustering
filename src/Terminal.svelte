@@ -2,6 +2,7 @@
     import { createEventDispatcher } from 'svelte'
     const dispatch = createEventDispatcher()
 
+    let history = []
     let command = ':help'
     let logs = []
 
@@ -36,12 +37,19 @@
         fit: () => {
             dispatch('fit')
         },
+        history: () => {
+            history.forEach((c) => {
+                logs = [...logs, c]
+            })
+        },
     }
 
     function Excute() {
         if (command[0] == ':') {
+            history.push(command)
             const cmd = command.slice(1)
             if (COMMAND_LIB[cmd]) {
+                logs = [...logs, `USER>${cmd}`]
                 COMMAND_LIB[cmd]()
             } else {
                 logs = [...logs, `Command not found: ${cmd}`]
