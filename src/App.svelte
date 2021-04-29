@@ -1,13 +1,35 @@
 <script>
-    import { Graphic, XAxis, YAxis, Point, Symbol_ } from '@snlab/florence'
+    import {
+        Graphic,
+        XAxis,
+        YAxis,
+        XGridLines,
+        YGridLines,
+        Point,
+    } from '@snlab/florence'
 
-    let LABELS_AMOUNT = 4
-    let N_FOR_LABEL = 50
+    let GRID_COLOR = '#80DDF2'
+
+    let LABELS_AMOUNT = 3
+    let N_FOR_LABEL = 80
     let MAX = 100
-    let COLORS = ['#F28F38', '#F25757', '#037F8C', '#205459']
+    let COLORS = [
+        '#FF0DC0',
+        '#F22E62',
+        '#25BCFF',
+        '#205459',
+        '#16a085',
+        '#27ae60',
+        '#8e44ad',
+        '#e74c3c',
+        '#d35400',
+        '#f39c12',
+        '#f1c40f',
+        '#2c3e50',
+    ]
 
     // Note that error must be < max/2
-    let ERROR = 20
+    let ERROR = 25
 
     // distance of centers from origin
     let RADIUS = MAX / 2 - ERROR
@@ -27,7 +49,7 @@
                 const point = {
                     x: x + ERROR * Math.cos(angle) * Math.random(),
                     y: y + ERROR * Math.sin(angle) * Math.random(),
-                    label: 0,
+                    label: -1,
                 }
                 data.push(point)
             }
@@ -107,70 +129,163 @@
 </script>
 
 <main>
-    <h1>k-means clustering</h1>
-
-    <button on:click={Update}>Update</button>
-    <button on:click={Assignment}>Assignment</button>
-    <Graphic
-        width={400}
-        height={400}
-        scaleX={[-6, MAX + 6]}
-        scaleY={[-6, MAX + 6]}
-        flipY
-        padding={20}
+    <a
+        class="title"
+        href="https://en.wikipedia.org/wiki/K-means_clustering"
+        target="_blank"
     >
-        {#each centers as center}
-            <Symbol_
-                x={center.x}
-                y={center.y}
-                radius={6}
-                shape={'star5'}
-                fill={'black'}
-                transition={2000}
+        <h1>k-means clustering</h1>
+        <h1>k-means clustering</h1>
+        <h1>k-means clustering</h1>
+    </a>
+
+    <div class="graph">
+        <Graphic
+            width={500}
+            height={500}
+            scaleX={[-6, MAX + 6]}
+            scaleY={[-6, MAX + 6]}
+            flipY
+            padding={20}
+        >
+            {#each data as point}
+                <Point
+                    x={point.x}
+                    y={point.y}
+                    radius={2}
+                    fill={point.label == -1
+                        ? '#8B8B8B'
+                        : labels[point.label].color}
+                    opacity={0.9}
+                    transition={2000}
+                />
+            {/each}
+            {#each labels as label}
+                <Point
+                    x={label.x}
+                    y={label.y}
+                    radius={6}
+                    fill={label.color}
+                    transition={2000}
+                />
+                <Point
+                    x={label.x}
+                    y={label.y}
+                    radius={10}
+                    strokeWidth={1}
+                    stroke={label.color}
+                    strokeOpacity={0.5}
+                    fill={label.color}
+                    transition={2000}
+                />
+            {/each}
+            <XAxis
+                baseLineColor={GRID_COLOR}
+                tickColor={GRID_COLOR}
+                labelColor={GRID_COLOR}
+                labelOpacity={0}
             />
-        {/each}
-        {#each data as point}
-            <Point
-                x={point.x}
-                y={point.y}
-                radius={3}
-                fill={labels[point.label].color}
-                transition={2000}
+            <YAxis
+                baseLineColor={GRID_COLOR}
+                tickColor={GRID_COLOR}
+                labelColor={GRID_COLOR}
+                labelOpacity={0}
             />
-        {/each}
-        {#each labels as label}
-            <Point
-                x={label.x}
-                y={label.y}
-                radius={6}
-                strokeWidth={3}
-                stroke={label.color}
-                fill={'white'}
-                transition={2000}
-            />
-        {/each}
-        <XAxis baseLineColor={'#024959'} />
-        <YAxis baseLineColor={'#024959'} />
-    </Graphic>
+            <XGridLines color={GRID_COLOR} opacity={0.3} />
+            <YGridLines color={GRID_COLOR} opacity={0.3} />
+        </Graphic>
+    </div>
+
+    <div class="controller">
+        <button on:click={Update}>Update</button>
+        <button on:click={Assignment}>Assign</button>
+    </div>
 </main>
 
 <style>
-    :global(body) {
-        background: white;
+    .title {
+        grid-area: title;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    a:hover {
+        text-decoration: none;
+    }
+    h1:nth-child(1) {
+        color: #ef29f2;
+        animation: glitch-anim 5s infinite linear alternate-reverse;
+        margin-left: -2px;
+    }
+    h1:nth-child(2) {
+        color: #00fff9;
+        animation: glitch-anim2 1s infinite linear alternate-reverse;
+        margin-right: -2px;
+    }
+    h1:nth-child(3) {
+        color: #fff;
+    }
+    h1 {
+        position: absolute;
+
+        text-transform: uppercase;
+        font-size: 2rem;
+        font-weight: 400;
     }
 
     main {
+        background-color: rgba(0, 0, 0, 0.95);
+
+        width: 100vw;
+        height: 100vh;
+
         text-align: center;
         padding: 1em;
-        max-width: 240px;
-        margin: 0 auto;
+        margin: 0;
+        padding: 0;
+
+        display: grid;
+        grid-template-columns: 1fr auto;
+        grid-template-rows: 60px 1fr;
+        grid-template-areas:
+            'title controller'
+            'graph controller';
     }
 
-    h1 {
-        color: #005057;
+    .graph {
+        grid-area: graph;
+    }
+
+    .controller {
+        grid-area: controller;
+
+        height: fit-content;
+
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        align-items: center;
+        justify-content: center;
+    }
+    button {
+        --color: rgb(51, 70, 235);
+        background: var(--color);
+
+        outline: none;
+        border: none;
+        color: white;
+        padding: 0;
+
+        font-weight: 900;
         text-transform: uppercase;
-        font-size: 4em;
-        font-weight: 100;
+        font-size: 0.8rem;
+
+        cursor: pointer;
+
+        clip-path: polygon(0 0, 100% 0%, 100% 100%, 15% 100%, 0 67%);
+        width: 120px;
+        height: 40px;
     }
 
     @media (min-width: 640px) {
