@@ -1,35 +1,37 @@
 <script>
-    import { Graphic, PointLayer, XAxis, YAxis, Point } from '@snlab/florence'
+    import { Graphic, XAxis, YAxis, Point, Symbol_ } from '@snlab/florence'
 
     let LABELS_AMOUNT = 4
-    let N_FOR_LABEL = 30
+    let N_FOR_LABEL = 50
     let MAX = 100
+    let COLORS = ['#F28F38', '#F25757', '#037F8C', '#205459']
 
-    let ERROR = 0.25
+    // Note that error must be < max/2
+    let ERROR = 20
 
-    let labels = []
-    let data = []
-    let colors = ['#F28F38', '#F25757', '#037F8C', '#205459']
+    // distance of centers from origin
+    let RADIUS = MAX / 2 - ERROR
 
+    // Functions
     const euclideanDistance = function (a, b) {
         let x = a.x - b.x
         let y = a.y - b.y
 
         return Math.sqrt(x * x + y * y)
     }
-    const getError = (max) => -ERROR + Math.random() * (2 * ERROR) * max
-    const generateData = function (N, from, to, labels_amount) {
+    const generateData = function (nForLabel, centers) {
         let data = []
-        let errorRange = to - from
-
-        for (let i = from; i < to; i += Math.round(errorRange / N)) {
-            const point = {
-                x: i + getError(errorRange),
-                y: i + getError(errorRange),
-                label: Math.floor(Math.random * labels_amount),
+        centers.forEach(({ x, y }) => {
+            for (let j = 0; j < nForLabel; j++) {
+                const angle = Math.PI * 2 * Math.random()
+                const point = {
+                    x: x + ERROR * Math.cos(angle) * Math.random(),
+                    y: y + ERROR * Math.sin(angle) * Math.random(),
+                    label: 0,
+                }
+                data.push(point)
             }
-            data.push(point)
-        }
+        })
         return data
     }
     const Mean = (includes) => {
@@ -55,33 +57,27 @@
         }
     }
 
-    data = generateData(N_FOR_LABEL * LABELS_AMOUNT, 0, MAX, LABELS_AMOUNT)
-
-    // Initalizing Labels
+    // Initalizing Labels and Centers
+    let centers = []
+    let labels = []
     for (let i = 0; i < LABELS_AMOUNT; i++) {
-        const label = {
+        labels.push({
             x: Math.random() * MAX,
             y: Math.random() * MAX,
-            color: colors[i],
-        }
-        labels.push(label)
+            color: COLORS[i],
+        })
+
+        centers.push({
+            x: MAX / 2 + Math.cos((Math.PI / LABELS_AMOUNT) * 2 * i) * RADIUS,
+            y: MAX / 2 + Math.sin((Math.PI / LABELS_AMOUNT) * 2 * i) * RADIUS,
+        })
     }
 
-    // Arrange data to nearest point
-    data.forEach((p) => {
-        let minDis = euclideanDistance(p, labels[0])
-        let min = 0
+    // Gen data
+    let data = []
+    data = generateData(N_FOR_LABEL, centers)
 
-        labels.forEach((label, index) => {
-            const dis = euclideanDistance(p, label)
-            if (dis < minDis) {
-                min = index
-                minDis = dis
-            }
-        })
-        p.label = min
-    })
-
+    // Event Handler
     // Recalculate means for observations assigned to each cluster.
     function Update() {
         labels.forEach((label, index) => {
@@ -112,24 +108,24 @@
 
 <main>
     <h1>k-means clustering</h1>
+
     <button on:click={Update}>Update</button>
     <button on:click={Assignment}>Assignment</button>
     <Graphic
         width={400}
         height={400}
-        scaleX={[0, 150]}
-        scaleY={[0, 150]}
+        scaleX={[-6, MAX + 6]}
+        scaleY={[-6, MAX + 6]}
         flipY
         padding={20}
     >
-        {#each labels as label}
-            <Point
-                x={label.x}
-                y={label.y}
+        {#each centers as center}
+            <Symbol_
+                x={center.x}
+                y={center.y}
                 radius={6}
-                strokeWidth={3}
-                stroke={label.color}
-                fill={'transparent'}
+                shape={'star5'}
+                fill={'black'}
                 transition={2000}
             />
         {/each}
@@ -139,6 +135,17 @@
                 y={point.y}
                 radius={3}
                 fill={labels[point.label].color}
+                transition={2000}
+            />
+        {/each}
+        {#each labels as label}
+            <Point
+                x={label.x}
+                y={label.y}
+                radius={6}
+                strokeWidth={3}
+                stroke={label.color}
+                fill={'white'}
                 transition={2000}
             />
         {/each}
