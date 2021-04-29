@@ -1,4 +1,5 @@
 <script>
+    import Terminal from './Terminal.svelte'
     import {
         Graphic,
         XAxis,
@@ -7,6 +8,7 @@
         YGridLines,
         Point,
     } from '@snlab/florence'
+    import { assign } from 'svelte/internal'
 
     let GRID_COLOR = '#80DDF2'
 
@@ -110,6 +112,8 @@
 
     // Assign each observation to the cluster with the nearest mean
     function Assignment() {
+        let change = false
+
         data.forEach((p) => {
             let minDis = euclideanDistance(p, labels[0])
             let min = 0
@@ -121,10 +125,25 @@
                     minDis = dis
                 }
             })
+            change = p.label != min
             p.label = min
         })
 
         labels = labels
+        return change
+    }
+
+    // Assign each observation to the cluster with the nearest mean
+    function Fit() {
+        let change = Assignment()
+        Update()
+
+        setInterval(() => {
+            change = Assignment()
+            Update()
+
+            if (!change) return
+        }, 4000)
     }
 </script>
 
@@ -197,8 +216,7 @@
     </div>
 
     <div class="controller">
-        <button on:click={Update}>Update</button>
-        <button on:click={Assignment}>Assign</button>
+        <Terminal on:assign={Assignment} on:update={Update} on:fit={Fit} />
     </div>
 </main>
 
@@ -267,25 +285,6 @@
         gap: 1rem;
         align-items: center;
         justify-content: center;
-    }
-    button {
-        --color: rgb(51, 70, 235);
-        background: var(--color);
-
-        outline: none;
-        border: none;
-        color: white;
-        padding: 0;
-
-        font-weight: 900;
-        text-transform: uppercase;
-        font-size: 0.8rem;
-
-        cursor: pointer;
-
-        clip-path: polygon(0 0, 100% 0%, 100% 100%, 15% 100%, 0 67%);
-        width: 120px;
-        height: 40px;
     }
 
     @media (min-width: 640px) {
