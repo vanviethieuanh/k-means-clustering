@@ -28,10 +28,10 @@
     ]
 
     // Note that error must be < max/2
-    let ERROR = 50
+    let ERROR = 30
 
     // distance of centers from origin
-    let RADIUS = MAX / 2 - ERROR
+    let RADIUS = MAX / 2 - 20
 
     // Functions
     const euclideanDistance = function (a, b) {
@@ -42,6 +42,7 @@
     }
     const generateData = function (nForLabel, centers) {
         let data = []
+        console.log(centers)
         centers.forEach(({ x, y }) => {
             for (let j = 0; j < nForLabel; j++) {
                 const angle = Math.PI * 2 * Math.random()
@@ -187,6 +188,25 @@
         }
         LABELS_AMOUNT = num
     }
+
+    function setData(e) {
+        const num = e.detail.num
+        if (N_FOR_LABEL > num) {
+            data = data.slice(0, num * LABELS_AMOUNT)
+        } else {
+            data = [
+                ...data,
+                ...generateData((num - N_FOR_LABEL) * LABELS_AMOUNT, centers),
+            ]
+        }
+        N_FOR_LABEL = num
+    }
+
+    function setError(e) {
+        const num = e.detail.num
+        ERROR = num
+        data = generateData(LABELS_AMOUNT * N_FOR_LABEL, centers)
+    }
 </script>
 
 <main>
@@ -253,6 +273,8 @@
             on:update={Update}
             on:fit={Fit}
             on:setLabel={setLabel}
+            on:setData={setData}
+            on:setError={setError}
         />
     </div>
 </main>

@@ -64,6 +64,9 @@
                 logs.update((l) => [...l, c])
             })
         },
+        clear: () => {
+            logs.set([])
+        },
         git: () => {
             window.open(
                 'https://github.com/vanviethieuanh/k-means-clustering',

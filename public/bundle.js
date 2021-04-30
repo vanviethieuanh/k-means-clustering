@@ -725,7 +725,7 @@ var app = (function () {
     	return child_ctx;
     }
 
-    // (154:12) {#each term_logs as log}
+    // (157:12) {#each term_logs as log}
     function create_each_block$2(ctx) {
     	let li;
     	let t_value = /*log*/ ctx[11] + "";
@@ -736,7 +736,7 @@ var app = (function () {
     			li = element("li");
     			t = text(t_value);
     			attr_dev(li, "class", "svelte-i3ue97");
-    			add_location(li, file$8, 154, 16, 4796);
+    			add_location(li, file$8, 157, 16, 4855);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, li, anchor);
@@ -754,7 +754,7 @@ var app = (function () {
     		block,
     		id: create_each_block$2.name,
     		type: "each",
-    		source: "(154:12) {#each term_logs as log}",
+    		source: "(157:12) {#each term_logs as log}",
     		ctx
     	});
 
@@ -790,13 +790,13 @@ var app = (function () {
     			t = space();
     			input = element("input");
     			attr_dev(ul, "class", "svelte-i3ue97");
-    			add_location(ul, file$8, 152, 8, 4716);
+    			add_location(ul, file$8, 155, 8, 4775);
     			attr_dev(div0, "class", "logs svelte-i3ue97");
-    			add_location(div0, file$8, 151, 4, 4689);
+    			add_location(div0, file$8, 154, 4, 4748);
     			attr_dev(input, "class", "svelte-i3ue97");
-    			add_location(input, file$8, 159, 4, 4861);
+    			add_location(input, file$8, 162, 4, 4920);
     			attr_dev(div1, "class", "terminal svelte-i3ue97");
-    			add_location(div1, file$8, 150, 0, 4662);
+    			add_location(div1, file$8, 153, 0, 4721);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -935,6 +935,9 @@ var app = (function () {
     			history.forEach(c => {
     				logs.update(l => [...l, c]);
     			});
+    		},
+    		clear: () => {
+    			logs.set([]);
     		},
     		git: () => {
     			window.open("https://github.com/vanviethieuanh/k-means-clustering", "_blank");
@@ -24989,29 +24992,29 @@ return d[d.length-1];};return ", funcName].join("");
 
     function get_each_context(ctx, list, i) {
     	const child_ctx = ctx.slice();
-    	child_ctx[17] = list[i];
+    	child_ctx[19] = list[i];
     	return child_ctx;
     }
 
     function get_each_context_1(ctx, list, i) {
     	const child_ctx = ctx.slice();
-    	child_ctx[20] = list[i];
+    	child_ctx[22] = list[i];
     	return child_ctx;
     }
 
-    // (202:12) {#each data as point}
+    // (222:12) {#each data as point}
     function create_each_block_1(ctx) {
     	let point;
     	let current;
 
     	point = new Point({
     			props: {
-    				x: /*point*/ ctx[20].x,
-    				y: /*point*/ ctx[20].y,
+    				x: /*point*/ ctx[22].x,
+    				y: /*point*/ ctx[22].y,
     				radius: 2,
-    				fill: /*point*/ ctx[20].label == -1
+    				fill: /*point*/ ctx[22].label == -1
     				? "#8B8B8B"
-    				: /*labels*/ ctx[0][/*point*/ ctx[20].label].color,
+    				: /*labels*/ ctx[0][/*point*/ ctx[22].label].color,
     				opacity: 0.9,
     				transition: 2000
     			},
@@ -25028,12 +25031,12 @@ return d[d.length-1];};return ", funcName].join("");
     		},
     		p: function update(ctx, dirty) {
     			const point_changes = {};
-    			if (dirty & /*data*/ 2) point_changes.x = /*point*/ ctx[20].x;
-    			if (dirty & /*data*/ 2) point_changes.y = /*point*/ ctx[20].y;
+    			if (dirty & /*data*/ 2) point_changes.x = /*point*/ ctx[22].x;
+    			if (dirty & /*data*/ 2) point_changes.y = /*point*/ ctx[22].y;
 
-    			if (dirty & /*data, labels*/ 3) point_changes.fill = /*point*/ ctx[20].label == -1
+    			if (dirty & /*data, labels*/ 3) point_changes.fill = /*point*/ ctx[22].label == -1
     			? "#8B8B8B"
-    			: /*labels*/ ctx[0][/*point*/ ctx[20].label].color;
+    			: /*labels*/ ctx[0][/*point*/ ctx[22].label].color;
 
     			point.$set(point_changes);
     		},
@@ -25055,14 +25058,14 @@ return d[d.length-1];};return ", funcName].join("");
     		block,
     		id: create_each_block_1.name,
     		type: "each",
-    		source: "(202:12) {#each data as point}",
+    		source: "(222:12) {#each data as point}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (214:12) {#each labels as label}
+    // (234:12) {#each labels as label}
     function create_each_block(ctx) {
     	let point0;
     	let t;
@@ -25071,10 +25074,10 @@ return d[d.length-1];};return ", funcName].join("");
 
     	point0 = new Point({
     			props: {
-    				x: /*label*/ ctx[17].x,
-    				y: /*label*/ ctx[17].y,
+    				x: /*label*/ ctx[19].x,
+    				y: /*label*/ ctx[19].y,
     				radius: 6,
-    				fill: /*label*/ ctx[17].color,
+    				fill: /*label*/ ctx[19].color,
     				transition: 2000
     			},
     			$$inline: true
@@ -25082,13 +25085,13 @@ return d[d.length-1];};return ", funcName].join("");
 
     	point1 = new Point({
     			props: {
-    				x: /*label*/ ctx[17].x,
-    				y: /*label*/ ctx[17].y,
+    				x: /*label*/ ctx[19].x,
+    				y: /*label*/ ctx[19].y,
     				radius: 10,
     				strokeWidth: 1,
-    				stroke: /*label*/ ctx[17].color,
+    				stroke: /*label*/ ctx[19].color,
     				strokeOpacity: 0.5,
-    				fill: /*label*/ ctx[17].color,
+    				fill: /*label*/ ctx[19].color,
     				transition: 2000
     			},
     			$$inline: true
@@ -25108,15 +25111,15 @@ return d[d.length-1];};return ", funcName].join("");
     		},
     		p: function update(ctx, dirty) {
     			const point0_changes = {};
-    			if (dirty & /*labels*/ 1) point0_changes.x = /*label*/ ctx[17].x;
-    			if (dirty & /*labels*/ 1) point0_changes.y = /*label*/ ctx[17].y;
-    			if (dirty & /*labels*/ 1) point0_changes.fill = /*label*/ ctx[17].color;
+    			if (dirty & /*labels*/ 1) point0_changes.x = /*label*/ ctx[19].x;
+    			if (dirty & /*labels*/ 1) point0_changes.y = /*label*/ ctx[19].y;
+    			if (dirty & /*labels*/ 1) point0_changes.fill = /*label*/ ctx[19].color;
     			point0.$set(point0_changes);
     			const point1_changes = {};
-    			if (dirty & /*labels*/ 1) point1_changes.x = /*label*/ ctx[17].x;
-    			if (dirty & /*labels*/ 1) point1_changes.y = /*label*/ ctx[17].y;
-    			if (dirty & /*labels*/ 1) point1_changes.stroke = /*label*/ ctx[17].color;
-    			if (dirty & /*labels*/ 1) point1_changes.fill = /*label*/ ctx[17].color;
+    			if (dirty & /*labels*/ 1) point1_changes.x = /*label*/ ctx[19].x;
+    			if (dirty & /*labels*/ 1) point1_changes.y = /*label*/ ctx[19].y;
+    			if (dirty & /*labels*/ 1) point1_changes.stroke = /*label*/ ctx[19].color;
+    			if (dirty & /*labels*/ 1) point1_changes.fill = /*label*/ ctx[19].color;
     			point1.$set(point1_changes);
     		},
     		i: function intro(local) {
@@ -25141,14 +25144,14 @@ return d[d.length-1];};return ", funcName].join("");
     		block,
     		id: create_each_block.name,
     		type: "each",
-    		source: "(214:12) {#each labels as label}",
+    		source: "(234:12) {#each labels as label}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (194:8) <Graphic             width={500}             height={500}             scaleX={[-6, MAX + 6]}             scaleY={[-6, MAX + 6]}             flipY             padding={20}         >
+    // (214:8) <Graphic             width={500}             height={500}             scaleX={[-6, MAX + 6]}             scaleY={[-6, MAX + 6]}             flipY             padding={20}         >
     function create_default_slot(ctx) {
     	let t0;
     	let t1;
@@ -25374,7 +25377,7 @@ return d[d.length-1];};return ", funcName].join("");
     		block,
     		id: create_default_slot.name,
     		type: "slot",
-    		source: "(194:8) <Graphic             width={500}             height={500}             scaleX={[-6, MAX + 6]}             scaleY={[-6, MAX + 6]}             flipY             padding={20}         >",
+    		source: "(214:8) <Graphic             width={500}             height={500}             scaleX={[-6, MAX + 6]}             scaleY={[-6, MAX + 6]}             flipY             padding={20}         >",
     		ctx
     	});
 
@@ -25409,6 +25412,8 @@ return d[d.length-1];};return ", funcName].join("");
     	terminal.$on("update", /*Update*/ ctx[4]);
     	terminal.$on("fit", /*Fit*/ ctx[6]);
     	terminal.$on("setLabel", /*setLabel*/ ctx[7]);
+    	terminal.$on("setData", /*setData*/ ctx[8]);
+    	terminal.$on("setError", /*setError*/ ctx[9]);
 
     	const block = {
     		c: function create() {
@@ -25419,11 +25424,11 @@ return d[d.length-1];};return ", funcName].join("");
     			div1 = element("div");
     			create_component(terminal.$$.fragment);
     			attr_dev(div0, "class", "graph");
-    			add_location(div0, file, 192, 4, 4755);
+    			add_location(div0, file, 212, 4, 5279);
     			attr_dev(div1, "class", "controller svelte-31asw4");
-    			add_location(div1, file, 249, 4, 6495);
+    			add_location(div1, file, 269, 4, 7019);
     			attr_dev(main, "class", "svelte-31asw4");
-    			add_location(main, file, 191, 0, 4744);
+    			add_location(main, file, 211, 0, 5268);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -25440,7 +25445,7 @@ return d[d.length-1];};return ", funcName].join("");
     		p: function update(ctx, [dirty]) {
     			const graphic_changes = {};
 
-    			if (dirty & /*$$scope, labels, data*/ 8388611) {
+    			if (dirty & /*$$scope, labels, data*/ 33554435) {
     				graphic_changes.$$scope = { dirty, ctx };
     			}
 
@@ -25496,10 +25501,10 @@ return d[d.length-1];};return ", funcName].join("");
     	];
 
     	// Note that error must be < max/2
-    	let ERROR = 50;
+    	let ERROR = 30;
 
     	// distance of centers from origin
-    	let RADIUS = MAX / 2 - ERROR;
+    	let RADIUS = MAX / 2 - 20;
 
     	// Functions
     	const euclideanDistance = function (a, b) {
@@ -25510,6 +25515,7 @@ return d[d.length-1];};return ", funcName].join("");
 
     	const generateData = function (nForLabel, centers) {
     		let data = [];
+    		console.log(centers);
 
     		centers.forEach(({ x, y }) => {
     			for (let j = 0; j < nForLabel; j++) {
@@ -25657,6 +25663,24 @@ return d[d.length-1];};return ", funcName].join("");
     		LABELS_AMOUNT = num;
     	}
 
+    	function setData(e) {
+    		const num = e.detail.num;
+
+    		if (N_FOR_LABEL > num) {
+    			$$invalidate(1, data = data.slice(0, num * LABELS_AMOUNT));
+    		} else {
+    			$$invalidate(1, data = [...data, ...generateData((num - N_FOR_LABEL) * LABELS_AMOUNT, centers)]);
+    		}
+
+    		N_FOR_LABEL = num;
+    	}
+
+    	function setError(e) {
+    		const num = e.detail.num;
+    		ERROR = num;
+    		$$invalidate(1, data = generateData(LABELS_AMOUNT * N_FOR_LABEL, centers));
+    	}
+
     	const writable_props = [];
 
     	Object_1.keys($$props).forEach(key => {
@@ -25688,7 +25712,9 @@ return d[d.length-1];};return ", funcName].join("");
     		Update,
     		Assignment,
     		Fit,
-    		setLabel
+    		setLabel,
+    		setData,
+    		setError
     	});
 
     	$$self.$inject_state = $$props => {
@@ -25708,7 +25734,18 @@ return d[d.length-1];};return ", funcName].join("");
     		$$self.$inject_state($$props.$$inject);
     	}
 
-    	return [labels, data, GRID_COLOR, MAX, Update, Assignment, Fit, setLabel];
+    	return [
+    		labels,
+    		data,
+    		GRID_COLOR,
+    		MAX,
+    		Update,
+    		Assignment,
+    		Fit,
+    		setLabel,
+    		setData,
+    		setError
+    	];
     }
 
     class App extends SvelteComponentDev {
