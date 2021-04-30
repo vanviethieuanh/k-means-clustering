@@ -4,7 +4,6 @@ import resolve from '@rollup/plugin-node-resolve'
 import livereload from 'rollup-plugin-livereload'
 import { terser } from 'rollup-plugin-terser'
 import css from 'rollup-plugin-css-only'
-import url from 'rollup-plugin-url'
 import preprocess from 'svelte-preprocess'
 
 const production = !process.env.ROLLUP_WATCH
@@ -43,9 +42,6 @@ export default {
         file: 'public/build/bundle.js',
     },
     plugins: [
-        url({
-            publicPath: production ? '/k-means-clustering' : '',
-        }),
         svelte({
             compilerOptions: {
                 // enable run-time checks when not in production

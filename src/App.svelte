@@ -8,7 +8,7 @@
         YGridLines,
         Point,
     } from '@snlab/florence'
-    import { assign } from 'svelte/internal'
+    import { logs } from './store'
 
     let GRID_COLOR = '#80DDF2'
 
@@ -31,7 +31,7 @@
     ]
 
     // Note that error must be < max/2
-    let ERROR = 25
+    let ERROR = 50
 
     // distance of centers from origin
     let RADIUS = MAX / 2 - ERROR
@@ -113,6 +113,11 @@
     // Assign each observation to the cluster with the nearest mean
     function Assignment() {
         let change = false
+        let contain = []
+
+        for (let i = 0; i < LABELS_AMOUNT; i++) {
+            contain.push(0)
+        }
 
         data.forEach((p) => {
             let minDis = euclideanDistance(p, labels[0])
@@ -125,9 +130,19 @@
                     minDis = dis
                 }
             })
-            change = p.label != min
+            if (!change) change = p.label != min
+            contain[min] += 1
+
             p.label = min
+
+            logs.update((l) => [...l, `Assigned (${p.x}, ${p.y}) to ${min}`])
         })
+        for (let i = 0; i < LABELS_AMOUNT; i++) {
+            logs.update((l) => [
+                ...l,
+                `Label ${i} now contain ${contain[i]} points`,
+            ])
+        }
 
         labels = labels
         return change
@@ -135,29 +150,28 @@
 
     // Assign each observation to the cluster with the nearest mean
     function Fit() {
+        let interval = 1
+
         let change = Assignment()
         Update()
 
-        setInterval(() => {
+        let fit = setInterval(() => {
             change = Assignment()
             Update()
+            interval++
 
-            if (!change) return
-        }, 4000)
+            if (!change) {
+                logs.update((l) => [
+                    ...l,
+                    `Fitted after ${interval} interation(s)`,
+                ])
+                clearInterval(fit)
+            }
+        }, 2000)
     }
 </script>
 
 <main>
-    <a
-        class="title"
-        href="https://en.wikipedia.org/wiki/K-means_clustering"
-        target="_blank"
-    >
-        <h1>k-means clustering</h1>
-        <h1>k-means clustering</h1>
-        <h1>k-means clustering</h1>
-    </a>
-
     <div class="graph">
         <Graphic
             width={500}
@@ -228,29 +242,6 @@
         align-items: center;
         justify-content: center;
     }
-    a:hover {
-        text-decoration: none;
-    }
-    h1:nth-child(1) {
-        color: #ef29f2;
-        animation: glitch-anim 5s infinite linear alternate-reverse;
-        margin-left: -2px;
-    }
-    h1:nth-child(2) {
-        color: #00fff9;
-        animation: glitch-anim2 1s infinite linear alternate-reverse;
-        margin-right: -2px;
-    }
-    h1:nth-child(3) {
-        color: #fff;
-    }
-    h1 {
-        position: absolute;
-
-        text-transform: uppercase;
-        font-size: 2rem;
-        font-weight: 400;
-    }
 
     main {
         background-color: rgba(0, 0, 0, 0.95);
@@ -265,19 +256,10 @@
 
         display: grid;
         grid-template-columns: 1fr auto;
-        grid-template-rows: 60px 1fr;
-        grid-template-areas:
-            'title controller'
-            'graph controller';
-    }
-
-    .graph {
-        grid-area: graph;
+        align-items: center;
     }
 
     .controller {
-        grid-area: controller;
-
         height: fit-content;
 
         display: flex;
