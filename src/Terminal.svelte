@@ -4,7 +4,7 @@
     const dispatch = createEventDispatcher()
 
     let history = []
-    let command = ':help'
+    let command = 'help'
     let term_logs
     logs.subscribe((value) => {
         term_logs = value
@@ -32,22 +32,22 @@
                 '==============K-MEANS CLUSTERING==============',
             ])
             logs.update((l) => [...l, ''])
-            logs.update((l) => [...l, ':help'])
+            logs.update((l) => [...l, 'help'])
             logs.update((l) => [...l, 'Show this help'])
-            logs.update((l) => [...l, ':assign'])
+            logs.update((l) => [...l, 'assign'])
             logs.update((l) => [
                 ...l,
                 'Assign each observation to the cluster with the nearest mean.',
             ])
-            logs.update((l) => [...l, ':update'])
+            logs.update((l) => [...l, 'update'])
             logs.update((l) => [
                 ...l,
                 'Recalculate means (centroids) for observations assigned to each cluster.',
             ])
-            logs.update((l) => [...l, ':fit'])
+            logs.update((l) => [...l, 'fit'])
             logs.update((l) => [
                 ...l,
-                'Repeat :assign and :update until the assignments no longer change.',
+                'Repeat assign and update until the assignments no longer change.',
             ])
         },
         assign: () => {
@@ -64,18 +64,76 @@
                 logs.update((l) => [...l, c])
             })
         },
+        git: () => {
+            window.open(
+                'https://github.com/vanviethieuanh/k-means-clustering',
+                '_blank'
+            )
+        },
+        github: () => {
+            window.open(
+                'https://github.com/vanviethieuanh/k-means-clustering',
+                '_blank'
+            )
+        },
+        be: () => {
+            window.open('https://www.behance.net/vanviethieuanh', '_blank')
+        },
+        behance: () => {
+            window.open('https://www.behance.net/vanviethieuanh', '_blank')
+        },
+        email: () => {
+            navigator.clipboard.writeText('vanviethieuanh@gmail.com')
+            logs.update((l) => [...l, 'Email copied to clipboard!'])
+        },
     }
 
     function Excute() {
-        if (command[0] == ':') {
-            history.push(command)
-            const cmd = command.slice(1)
-            if (COMMAND_LIB[cmd]) {
-                logs.update((l) => [...l, `USER>${cmd}`])
-                COMMAND_LIB[cmd]()
-            } else {
-                logs.update((l) => [...l, `Command not found: ${cmd}`])
+        history.push(command)
+
+        if (command.slice(0, 3) == 'set') {
+            const commands = command.split(' ')
+            command = ''
+
+            if (commands[1] == '--help') {
+                logs.update((l) => [...l, `set label <n>`])
+                logs.update((l) => [...l, `Set the amount of label (1<n<5)`])
+                logs.update((l) => [...l, `set data <n>`])
+                logs.update((l) => [
+                    ...l,
+                    `Set the amount data for each label (10<n<100)`,
+                ])
+                logs.update((l) => [...l, `set error <n>`])
+                logs.update((l) => [
+                    ...l,
+                    `Set the error range for data from center point (0<n<50)`,
+                ])
+                return
             }
+
+            if (commands[1] == 'label' && commands[2] && !isNaN(commands[2])) {
+                dispatch('setLabel', { num: parseInt(commands[2]) })
+                return
+            }
+
+            if (commands[1] == 'data' && commands[2] && !isNaN(commands[2])) {
+                dispatch('setData', { num: parseInt(commands[2]) })
+                return
+            }
+            if (commands[1] == 'error' && commands[2] && !isNaN(commands[2])) {
+                dispatch('setError', { num: parseInt(commands[2]) })
+                return
+            }
+
+            logs.update((l) => [...l, `Type "set --help" for more information`])
+            return
+        }
+
+        if (COMMAND_LIB[command]) {
+            logs.update((l) => [...l, `USER>${command}`])
+            COMMAND_LIB[command]()
+        } else {
+            logs.update((l) => [...l, `Command not found: ${command}`])
         }
         command = ''
     }
@@ -99,7 +157,7 @@
         </ul>
     </div>
 
-    <input bind:value={command} on:keypress={onKeyPress} autofocus />
+    <input bind:value={command} on:keypress={onKeyPress} />
 </div>
 
 <style>
@@ -160,12 +218,5 @@
 
         text-align: left;
         color: white;
-    }
-
-    .terminal input::before {
-        content: '>';
-        color: white;
-        height: 100%;
-        width: 1ch;
     }
 </style>

@@ -16,18 +16,15 @@
     let N_FOR_LABEL = 80
     let MAX = 100
     let COLORS = [
-        '#FF0DC0',
-        '#F22E62',
-        '#25BCFF',
-        '#205459',
-        '#16a085',
-        '#27ae60',
-        '#8e44ad',
-        '#e74c3c',
-        '#d35400',
-        '#f39c12',
-        '#f1c40f',
-        '#2c3e50',
+        '#fe00fe',
+        '#fe007f',
+        '#fe0000',
+        '#febf00',
+        '#fefe00',
+        '#00fe00',
+        '#00fefe',
+        '#0080ff',
+        '#3f00fe',
     ]
 
     // Note that error must be < max/2
@@ -169,6 +166,27 @@
             }
         }, 2000)
     }
+
+    function setLabel(e) {
+        const num = e.detail.num
+        console.log(`set label to ${num}`)
+        if (LABELS_AMOUNT > num) {
+            data.map((p) => {
+                p.label = -1
+            })
+            labels = labels.slice(0, num)
+        } else {
+            for (let i = LABELS_AMOUNT; i < num; i++) {
+                labels.push({
+                    x: Math.random() * MAX,
+                    y: Math.random() * MAX,
+                    color: COLORS[i],
+                })
+            }
+            labels = labels
+        }
+        LABELS_AMOUNT = num
+    }
 </script>
 
 <main>
@@ -230,19 +248,16 @@
     </div>
 
     <div class="controller">
-        <Terminal on:assign={Assignment} on:update={Update} on:fit={Fit} />
+        <Terminal
+            on:assign={Assignment}
+            on:update={Update}
+            on:fit={Fit}
+            on:setLabel={setLabel}
+        />
     </div>
 </main>
 
 <style>
-    .title {
-        grid-area: title;
-
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-
     main {
         background-color: rgba(0, 0, 0, 0.95);
 
