@@ -1,6 +1,6 @@
 import { writable } from 'svelte/store'
 
-export const logs = writable([])
+export const logs = writable(["Try 'help' command"])
 
 export const Print = (message) => {
     logs.update((l) => [...l, message])

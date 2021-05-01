@@ -96,7 +96,7 @@
 
     // Gen data
     let data = []
-    data = generateData(N_FOR_LABEL, centers)
+    data = generateData(N_FOR_LABEL * LABELS_AMOUNT, centers)
 
     // Event Handler
     // Recalculate means for observations assigned to each cluster.

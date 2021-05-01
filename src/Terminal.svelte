@@ -5,10 +5,6 @@
 
     let history = []
     let command = 'help'
-    let term_logs
-    logs.subscribe((value) => {
-        term_logs = value
-    })
 
     let logs_list
     let autoscroll
@@ -48,6 +44,17 @@
             BreakLine()
             Print('set --help')
             Print('To show how to set variables')
+            BreakLine()
+            Print('reset')
+            Print(
+                'Shuffle data again, it will recreate centers of data and random change position of labels'
+            )
+            BreakLine()
+            Print('git be email web')
+            Print('Show about me')
+            BreakLine()
+            Print('clear history')
+            Print('Same with terminal')
         },
         assign: () => {
             dispatch('assign')
@@ -86,6 +93,9 @@
         },
         behance: () => {
             window.open('https://www.behance.net/vanviethieuanh', '_blank')
+        },
+        web: () => {
+            window.open('https://www.vanviethieuanh.com/', '_blank')
         },
         email: () => {
             navigator.clipboard.writeText('vanviethieuanh@gmail.com')

@@ -714,7 +714,7 @@ var app = (function () {
         return { set, update, subscribe };
     }
 
-    const logs = writable([]);
+    const logs = writable(["Try 'help' command"]);
 
     const Print = (message) => {
         logs.update((l) => [...l, message]);
@@ -742,14 +742,14 @@ var app = (function () {
 
     function get_each_context$2(ctx, list, i) {
     	const child_ctx = ctx.slice();
-    	child_ctx[12] = list[i];
+    	child_ctx[11] = list[i];
     	return child_ctx;
     }
 
-    // (161:16) {:else}
+    // (171:16) {:else}
     function create_else_block(ctx) {
     	let li;
-    	let t_value = /*log*/ ctx[12] + "";
+    	let t_value = /*log*/ ctx[11] + "";
     	let t;
 
     	const block = {
@@ -757,14 +757,14 @@ var app = (function () {
     			li = element("li");
     			t = text(t_value);
     			attr_dev(li, "class", "svelte-i3ue97");
-    			add_location(li, file$8, 161, 20, 4726);
+    			add_location(li, file$8, 171, 20, 5132);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, li, anchor);
     			append_dev(li, t);
     		},
     		p: function update(ctx, dirty) {
-    			if (dirty & /*$logs*/ 4 && t_value !== (t_value = /*log*/ ctx[12] + "")) set_data_dev(t, t_value);
+    			if (dirty & /*$logs*/ 4 && t_value !== (t_value = /*log*/ ctx[11] + "")) set_data_dev(t, t_value);
     		},
     		d: function destroy(detaching) {
     			if (detaching) detach_dev(li);
@@ -775,21 +775,21 @@ var app = (function () {
     		block,
     		id: create_else_block.name,
     		type: "else",
-    		source: "(161:16) {:else}",
+    		source: "(171:16) {:else}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (159:16) {#if log == 1}
+    // (169:16) {#if log == 1}
     function create_if_block$5(ctx) {
     	let br;
 
     	const block = {
     		c: function create() {
     			br = element("br");
-    			add_location(br, file$8, 159, 20, 4675);
+    			add_location(br, file$8, 169, 20, 5081);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, br, anchor);
@@ -804,19 +804,19 @@ var app = (function () {
     		block,
     		id: create_if_block$5.name,
     		type: "if",
-    		source: "(159:16) {#if log == 1}",
+    		source: "(169:16) {#if log == 1}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (158:12) {#each $logs as log}
+    // (168:12) {#each $logs as log}
     function create_each_block$2(ctx) {
     	let if_block_anchor;
 
     	function select_block_type(ctx, dirty) {
-    		if (/*log*/ ctx[12] == 1) return create_if_block$5;
+    		if (/*log*/ ctx[11] == 1) return create_if_block$5;
     		return create_else_block;
     	}
 
@@ -855,7 +855,7 @@ var app = (function () {
     		block,
     		id: create_each_block$2.name,
     		type: "each",
-    		source: "(158:12) {#each $logs as log}",
+    		source: "(168:12) {#each $logs as log}",
     		ctx
     	});
 
@@ -891,13 +891,13 @@ var app = (function () {
     			t = space();
     			input = element("input");
     			attr_dev(ul, "class", "svelte-i3ue97");
-    			add_location(ul, file$8, 156, 8, 4564);
+    			add_location(ul, file$8, 166, 8, 4970);
     			attr_dev(div0, "class", "logs svelte-i3ue97");
-    			add_location(div0, file$8, 155, 4, 4537);
+    			add_location(div0, file$8, 165, 4, 4943);
     			attr_dev(input, "class", "svelte-i3ue97");
-    			add_location(input, file$8, 167, 4, 4813);
+    			add_location(input, file$8, 177, 4, 5219);
     			attr_dev(div1, "class", "terminal svelte-i3ue97");
-    			add_location(div1, file$8, 154, 0, 4510);
+    			add_location(div1, file$8, 164, 0, 4916);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -985,12 +985,6 @@ var app = (function () {
     	const dispatch = createEventDispatcher();
     	let history = [];
     	let command = "help";
-    	let term_logs;
-
-    	logs.subscribe(value => {
-    		term_logs = value;
-    	});
-
     	let logs_list;
     	let autoscroll;
 
@@ -1020,6 +1014,15 @@ var app = (function () {
     			BreakLine();
     			Print("set --help");
     			Print("To show how to set variables");
+    			BreakLine();
+    			Print("reset");
+    			Print("Shuffle data again, it will recreate centers of data and random change position of labels");
+    			BreakLine();
+    			Print("git be email web");
+    			Print("Show about me");
+    			BreakLine();
+    			Print("clear history");
+    			Print("Same with terminal");
     		},
     		assign: () => {
     			dispatch("assign");
@@ -1052,6 +1055,9 @@ var app = (function () {
     		},
     		behance: () => {
     			window.open("https://www.behance.net/vanviethieuanh", "_blank");
+    		},
+    		web: () => {
+    			window.open("https://www.vanviethieuanh.com/", "_blank");
     		},
     		email: () => {
     			navigator.clipboard.writeText("vanviethieuanh@gmail.com");
@@ -1147,7 +1153,6 @@ var app = (function () {
     		dispatch,
     		history,
     		command,
-    		term_logs,
     		logs_list,
     		autoscroll,
     		COMMAND_LIB,
@@ -1159,7 +1164,6 @@ var app = (function () {
     	$$self.$inject_state = $$props => {
     		if ("history" in $$props) history = $$props.history;
     		if ("command" in $$props) $$invalidate(0, command = $$props.command);
-    		if ("term_logs" in $$props) term_logs = $$props.term_logs;
     		if ("logs_list" in $$props) $$invalidate(1, logs_list = $$props.logs_list);
     		if ("autoscroll" in $$props) autoscroll = $$props.autoscroll;
     	};
@@ -25539,11 +25543,11 @@ return d[d.length-1];};return ", funcName].join("");
     			div1 = element("div");
     			create_component(terminal.$$.fragment);
     			attr_dev(div0, "class", "graph");
-    			add_location(div0, file, 222, 4, 5514);
+    			add_location(div0, file, 222, 4, 5530);
     			attr_dev(div1, "class", "controller svelte-31asw4");
-    			add_location(div1, file, 279, 4, 7254);
+    			add_location(div1, file, 279, 4, 7270);
     			attr_dev(main, "class", "svelte-31asw4");
-    			add_location(main, file, 221, 0, 5503);
+    			add_location(main, file, 221, 0, 5519);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -25683,7 +25687,7 @@ return d[d.length-1];};return ", funcName].join("");
     	// Gen data
     	let data = [];
 
-    	data = generateData(N_FOR_LABEL, centers);
+    	data = generateData(N_FOR_LABEL * LABELS_AMOUNT, centers);
 
     	// Event Handler
     	// Recalculate means for observations assigned to each cluster.
