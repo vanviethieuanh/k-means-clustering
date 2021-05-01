@@ -95,11 +95,15 @@
             window.open('https://www.behance.net/vanviethieuanh', '_blank')
         },
         web: () => {
-            window.open('https://www.vanviethieuanh.com/', '_blank')
+            window.open('https://vanviethieuanh.com/', '_blank')
         },
         email: () => {
             navigator.clipboard.writeText('vanviethieuanh@gmail.com')
-            Print('Email copied to clipboard!')
+            Print('✉ Email copied to clipboard!')
+        },
+        mail: () => {
+            navigator.clipboard.writeText('vanviethieuanh@gmail.com')
+            Print('✉ Email copied to clipboard!')
         },
     }
 
@@ -139,7 +143,7 @@
                 }
             }
             if (commands[1] == 'error' && commands[2] && !isNaN(commands[2])) {
-                if (commands[2] > 50 && commands[2] < 5) {
+                if (commands[2] <= 50 && commands[2] >= 5) {
                     dispatch('setError', { num: parseInt(commands[2]) })
                     return
                 }

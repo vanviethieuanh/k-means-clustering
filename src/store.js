@@ -3,12 +3,12 @@ import { writable } from 'svelte/store'
 export const logs = writable(["Try 'help' command"])
 
 export const Print = (message) => {
-    logs.update((l) => [...l, message])
-
-    // console.log(logs)
-    if (logs.length > 100) {
-        logs.set(logs.slice(0, logs.length - 100))
-    }
+    logs.update((l) => {
+        if (l.length > 100) {
+            return [...l, message].slice(l.length - 100)
+        }
+        return [...l, message]
+    })
 }
 
 export const BreakLine = () => {

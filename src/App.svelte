@@ -96,7 +96,7 @@
 
     // Gen data
     let data = []
-    data = generateData(N_FOR_LABEL * LABELS_AMOUNT, centers)
+    data = generateData(N_FOR_LABEL, centers)
 
     // Event Handler
     // Recalculate means for observations assigned to each cluster.
@@ -129,7 +129,6 @@
             })
             if (!change) change = p.label != min
             contain[min] += 1
-
             p.label = min
 
             Print(`Assigned (${p.x}, ${p.y}) to ${min}`)
@@ -163,7 +162,6 @@
 
     function setLabel(e) {
         const num = e.detail.num
-        console.log(`set label to ${num}`)
         if (LABELS_AMOUNT > num) {
             data.map((p) => {
                 p.label = -1
@@ -174,7 +172,7 @@
                 labels.push({
                     x: Math.random() * MAX,
                     y: Math.random() * MAX,
-                    color: COLORS[i],
+                    cor: COLORS[i],
                 })
             }
             labels = labels
@@ -191,7 +189,7 @@
     function setError(e) {
         const num = e.detail.num
         ERROR = num
-        data = generateData(LABELS_AMOUNT * N_FOR_LABEL, centers)
+        data = generateData(N_FOR_LABEL, centers)
     }
 
     function Reset() {
@@ -215,7 +213,7 @@
         labels = labels
 
         data = []
-        data = generateData(LABELS_AMOUNT * N_FOR_LABEL, centers)
+        data = generateData(N_FOR_LABEL, centers)
     }
 </script>
 
