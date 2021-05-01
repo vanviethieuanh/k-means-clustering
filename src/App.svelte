@@ -8,7 +8,7 @@
         YGridLines,
         Point,
     } from '@snlab/florence'
-    import { logs } from './store'
+    import { Print } from './store'
 
     let GRID_COLOR = '#80DDF2'
 
@@ -42,7 +42,6 @@
     }
     const generateData = function (nForLabel, centers) {
         let data = []
-        console.log(centers)
         centers.forEach(({ x, y }) => {
             for (let j = 0; j < nForLabel; j++) {
                 const angle = Math.PI * 2 * Math.random()
@@ -133,13 +132,10 @@
 
             p.label = min
 
-            logs.update((l) => [...l, `Assigned (${p.x}, ${p.y}) to ${min}`])
+            Print(`Assigned (${p.x}, ${p.y}) to ${min}`)
         })
         for (let i = 0; i < LABELS_AMOUNT; i++) {
-            logs.update((l) => [
-                ...l,
-                `Label ${i} now contain ${contain[i]} points`,
-            ])
+            Print(`Label ${i} now contain ${contain[i]} points`)
         }
 
         labels = labels
@@ -159,10 +155,7 @@
             interval++
 
             if (!change) {
-                logs.update((l) => [
-                    ...l,
-                    `Fitted after ${interval} interation(s)`,
-                ])
+                Print(`Fitted after ${interval} interation(s)`)
                 clearInterval(fit)
             }
         }, 2000)
@@ -204,6 +197,11 @@
     function Reset() {
         centers = []
         for (let i = 0; i < LABELS_AMOUNT; i++) {
+            Object.assign(labels[i], {
+                x: Math.random() * MAX,
+                y: Math.random() * MAX,
+            })
+
             centers.push({
                 x:
                     MAX / 2 +
@@ -214,6 +212,7 @@
             })
         }
         centers = centers
+        labels = labels
 
         data = []
         data = generateData(LABELS_AMOUNT * N_FOR_LABEL, centers)

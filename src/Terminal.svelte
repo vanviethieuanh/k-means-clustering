@@ -1,6 +1,6 @@
 <script>
     import { createEventDispatcher, beforeUpdate, afterUpdate } from 'svelte'
-    import { logs } from './store'
+    import { logs, Print, ClearLog, BreakLine, Prompt } from './store'
     const dispatch = createEventDispatcher()
 
     let history = []
@@ -26,29 +26,28 @@
 
     const COMMAND_LIB = {
         help: () => {
-            logs.update((l) => [...l, ''])
-            logs.update((l) => [
-                ...l,
-                '==============K-MEANS CLUSTERING==============',
-            ])
-            logs.update((l) => [...l, ''])
-            logs.update((l) => [...l, 'help'])
-            logs.update((l) => [...l, 'Show this help'])
-            logs.update((l) => [...l, 'assign'])
-            logs.update((l) => [
-                ...l,
-                'Assign each observation to the cluster with the nearest mean.',
-            ])
-            logs.update((l) => [...l, 'update'])
-            logs.update((l) => [
-                ...l,
-                'Recalculate means (centroids) for observations assigned to each cluster.',
-            ])
-            logs.update((l) => [...l, 'fit'])
-            logs.update((l) => [
-                ...l,
-                'Repeat assign and update until the assignments no longer change.',
-            ])
+            Print('==============K-MEANS CLUSTERING==============')
+            BreakLine()
+            Print('help')
+            Print('Show this help')
+            BreakLine()
+            Print('assign')
+            Print(
+                'Assign each observation to the cluster with the nearest mean.'
+            )
+            BreakLine()
+            Print('update')
+            Print(
+                'Recalculate means (centroids) for observations assigned to each cluster.'
+            )
+            BreakLine()
+            Print('fit')
+            Print(
+                'Repeat assign and update until the assignments no longer change.'
+            )
+            BreakLine()
+            Print('set --help')
+            Print('To show how to set variables')
         },
         assign: () => {
             dispatch('assign')
@@ -64,11 +63,11 @@
         },
         history: () => {
             history.forEach((c) => {
-                logs.update((l) => [...l, c])
+                Print(c)
             })
         },
         clear: () => {
-            logs.set([])
+            ClearLog()
         },
         git: () => {
             window.open(
@@ -90,63 +89,62 @@
         },
         email: () => {
             navigator.clipboard.writeText('vanviethieuanh@gmail.com')
-            logs.update((l) => [...l, 'Email copied to clipboard!'])
+            Print('Email copied to clipboard!')
         },
     }
 
     function Excute() {
         history.push(command)
+        Prompt(command)
 
         if (command.slice(0, 3) == 'set') {
             const commands = command.split(' ')
             command = ''
 
             if (commands[1] == '--help') {
-                logs.update((l) => [...l, `set label <n>`])
-                logs.update((l) => [...l, `Set the amount of label (1<n<5)`])
-                logs.update((l) => [...l, `set data <n>`])
-                logs.update((l) => [
-                    ...l,
-                    `Set the amount data for each label (10<n<100)`,
-                ])
-                logs.update((l) => [...l, `set error <n>`])
-                logs.update((l) => [
-                    ...l,
-                    `Set the error range for data from center point (0<n<50)`,
-                ])
+                Print(`set label <n>`)
+                Print(`Set the amount of label (2≤n≤9)`)
+                BreakLine()
+                Print(`set data <n>`)
+                Print(
+                    `Set the amount data for each label (n ≥ 10 , should be < 100 for better visualize)`
+                )
+                BreakLine()
+                Print(`set error <n>`)
+                Print(`Set the error range for data from center point (5≤n≤50)`)
                 return
             }
 
             if (commands[1] == 'label' && commands[2] && !isNaN(commands[2])) {
-                dispatch('setLabel', { num: parseInt(commands[2]) })
-                return
+                if (commands[2] <= 9 && commands[2] >= 2) {
+                    dispatch('setLabel', { num: parseInt(commands[2]) })
+                    return
+                }
             }
 
             if (commands[1] == 'data' && commands[2] && !isNaN(commands[2])) {
-                dispatch('setData', { num: parseInt(commands[2]) })
-                return
+                if (commands[2] >= 10) {
+                    dispatch('setData', { num: parseInt(commands[2]) })
+                    return
+                }
             }
             if (commands[1] == 'error' && commands[2] && !isNaN(commands[2])) {
-                dispatch('setError', { num: parseInt(commands[2]) })
-                return
+                if (commands[2] > 50 && commands[2] < 5) {
+                    dispatch('setError', { num: parseInt(commands[2]) })
+                    return
+                }
             }
 
-            logs.update((l) => [...l, `Type "set --help" for more information`])
+            Print(`Type "set --help" for more information`)
             return
         }
 
         if (COMMAND_LIB[command]) {
-            logs.update((l) => [...l, `USER>${command}`])
             COMMAND_LIB[command]()
         } else {
-            logs.update((l) => [...l, `Command not found: ${command}`])
+            Print(`Command not found: ${command}`)
         }
         command = ''
-    }
-
-    function updateScroll() {
-        var element = document.getElementById('yourDivID')
-        element.scrollTop = element.scrollHeight
     }
 
     const onKeyPress = (e) => {
@@ -157,8 +155,12 @@
 <div class="terminal">
     <div class="logs">
         <ul bind:this={logs_list}>
-            {#each term_logs as log}
-                <li>{log}</li>
+            {#each $logs as log}
+                {#if log == 1}
+                    <br />
+                {:else}
+                    <li>{log}</li>
+                {/if}
             {/each}
         </ul>
     </div>
