@@ -191,20 +191,31 @@
 
     function setData(e) {
         const num = e.detail.num
-        if (N_FOR_LABEL > num) {
-            data = data.slice(0, num * LABELS_AMOUNT)
-        } else {
-            data = [
-                ...data,
-                ...generateData((num - N_FOR_LABEL) * LABELS_AMOUNT, centers),
-            ]
-        }
         N_FOR_LABEL = num
+        Reset()
     }
 
     function setError(e) {
         const num = e.detail.num
         ERROR = num
+        data = generateData(LABELS_AMOUNT * N_FOR_LABEL, centers)
+    }
+
+    function Reset() {
+        centers = []
+        for (let i = 0; i < LABELS_AMOUNT; i++) {
+            centers.push({
+                x:
+                    MAX / 2 +
+                    Math.cos((Math.PI / LABELS_AMOUNT) * 2 * i) * RADIUS,
+                y:
+                    MAX / 2 +
+                    Math.sin((Math.PI / LABELS_AMOUNT) * 2 * i) * RADIUS,
+            })
+        }
+        centers = centers
+
+        data = []
         data = generateData(LABELS_AMOUNT * N_FOR_LABEL, centers)
     }
 </script>
@@ -275,6 +286,7 @@
             on:setLabel={setLabel}
             on:setData={setData}
             on:setError={setError}
+            on:reset={Reset}
         />
     </div>
 </main>

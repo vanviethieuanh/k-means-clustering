@@ -59,6 +59,9 @@
         fit: () => {
             dispatch('fit')
         },
+        reset: () => {
+            dispatch('reset')
+        },
         history: () => {
             history.forEach((c) => {
                 logs.update((l) => [...l, c])
