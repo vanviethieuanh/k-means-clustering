@@ -178,7 +178,7 @@
                 labels.push({
                     x: Math.random() * MAX,
                     y: Math.random() * MAX,
-                    cor: COLORS[i],
+                    color: COLORS[i],
                 })
             }
             labels = labels
@@ -224,7 +224,6 @@
 </script>
 
 <svelte:window on:resize={graphSize} />
-
 <main>
     <div class="graph">
         <Graphic
