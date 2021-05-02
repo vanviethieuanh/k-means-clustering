@@ -1,105 +1,63 @@
-[data](https://www.kaggle.com/mustafaali96/weight-height)
+# K means clustering visualization
 
-_Looking for a shareable component template? Go here --> [sveltejs/component-template](https://github.com/sveltejs/component-template)_
 
----
+https://user-images.githubusercontent.com/29355962/116796469-d8c6e900-ab06-11eb-9920-cf0d086f51ba.mp4
 
-# svelte app
 
-This is a project template for [Svelte](https://svelte.dev) apps. It lives at https://github.com/sveltejs/template.
+[Demo](http://vanviethieuanh.com/k-means-clustering/)
 
-To create a new project based on this template using [degit](https://github.com/Rich-Harris/degit):
+Created using [Svelte](http://svelte.dev/) and [Florence](https://florence.spatialnetworkslab.org/) 
 
-```bash
-npx degit sveltejs/template svelte-app
-cd svelte-app
-```
+> k-means clustering is a method of vector quantization, originally from signal processing, that aims to partition n observations into k clusters in which each observation belongs to the cluster with the nearest mean (cluster centers or cluster centroid), serving as a prototype of the cluster. This results in a partitioning of the data space into Voronoi cells. k-means clustering minimizes within-cluster variances (squared Euclidean distances), but not regular Euclidean distances, which would be the more difficult Weber problem: the mean optimizes squared errors, whereas only the geometric median minimizes Euclidean distances. For instance, better Euclidean solutions can be found using k-medians and k-medoids.
+> 
+> [Wikipedia](https://en.wikipedia.org/wiki/K-means_clustering)
+> 
 
-_Note that you will need to have [Node.js](https://nodejs.org) installed._
+### Command
+==============K-MEANS CLUSTERING==============
 
-## Get started
+**help**
 
-Install the dependencies...
+Show this help
 
-```bash
-cd svelte-app
-npm install
-```
+**assign**
 
-...then start [Rollup](https://rollupjs.org):
+Assign each observation to the cluster with the nearest mean.
 
-```bash
-npm run dev
-```
+**update**
 
-Navigate to [localhost:5000](http://localhost:5000). You should see your app running. Edit a component file in `src`, save it, and reload the page to see your changes.
+Recalculate means (centroids) for observations assigned to each cluster.
 
-By default, the server will only respond to requests from localhost. To allow connections from other computers, edit the `sirv` commands in package.json to include the option `--host 0.0.0.0`.
+**fit**
 
-If you're using [Visual Studio Code](https://code.visualstudio.com/) we recommend installing the official extension [Svelte for VS Code](https://marketplace.visualstudio.com/items?itemName=svelte.svelte-vscode). If you are using other editors you may need to install a plugin in order to get syntax highlighting and intellisense.
+Repeat assign and update until the assignments no longer change.
 
-## Building and running in production mode
+**set --help**
 
-To create an optimised version of the app:
+To show how to set variables
 
-```bash
-npm run build
-```
+**reset**
 
-You can run the newly built app with `npm run start`. This uses [sirv](https://github.com/lukeed/sirv), which is included in your package.json's `dependencies` so that the app will work when you deploy to platforms like [Heroku](https://heroku.com).
+Shuffle data again, it will recreate centers of data and random change position of labels
 
-## Single-page app mode
+**git be email web**
 
-By default, sirv will only respond to requests that match files in `public`. This is to maximise compatibility with static fileservers, allowing you to deploy your app anywhere.
+Show about me
 
-If you're building a single-page app (SPA) with multiple routes, sirv needs to be able to respond to requests for _any_ path. You can make it so by editing the `"start"` command in package.json:
+**clear history**
 
-```js
-"start": "sirv public --single"
-```
+Same with terminal
 
-## Using TypeScript
+### Set
+**set label n**
 
-This template comes with a script to set up a TypeScript development environment, you can run it immediately after cloning the template with:
+Set the amount of label (2≤n≤9)
 
-```bash
-node scripts/setupTypeScript.js
-```
+**set data n**
 
-Or remove the script via:
+Set the amount data for each label (n ≥ 10 , should be < 100 for better visualize)
 
-```bash
-rm scripts/setupTypeScript.js
-```
 
-## Deploying to the web
+**set error n**
 
-### With [Vercel](https://vercel.com)
-
-Install `vercel` if you haven't already:
-
-```bash
-npm install -g vercel
-```
-
-Then, from within your project folder:
-
-```bash
-cd public
-vercel deploy --name my-project
-```
-
-### With [surge](https://surge.sh/)
-
-Install `surge` if you haven't already:
-
-```bash
-npm install -g surge
-```
-
-Then, from within your project folder:
-
-```bash
-npm run build
-surge public my-project.surge.sh
-```
+Set the error range for data from center point (5≤n≤50)
