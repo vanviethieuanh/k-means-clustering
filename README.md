@@ -4,9 +4,7 @@
 https://user-images.githubusercontent.com/29355962/116796469-d8c6e900-ab06-11eb-9920-cf0d086f51ba.mp4
 
 
-[Demo](http://vanviethieuanh.com/k-means-clustering/)
-
-Created using [Svelte](http://svelte.dev/) and [Florence](https://florence.spatialnetworkslab.org/) 
+Created using [Svelte](http://svelte.dev/) and [Florence](https://florence.spatialnetworkslab.org/), feel free to use in education purpose. Give me a ⭐ if you like it and want to save for using in the future.
 
 > k-means clustering is a method of vector quantization, originally from signal processing, that aims to partition n observations into k clusters in which each observation belongs to the cluster with the nearest mean (cluster centers or cluster centroid), serving as a prototype of the cluster. This results in a partitioning of the data space into Voronoi cells. k-means clustering minimizes within-cluster variances (squared Euclidean distances), but not regular Euclidean distances, which would be the more difficult Weber problem: the mean optimizes squared errors, whereas only the geometric median minimizes Euclidean distances. For instance, better Euclidean solutions can be found using k-medians and k-medoids.
 > 
@@ -61,3 +59,16 @@ Set the amount data for each label (n ≥ 10 , should be < 100 for better visual
 **set error n**
 
 Set the error range for data from center point (5≤n≤50)
+
+### Usage
+[Demo](http://vanviethieuanh.com/k-means-clustering/)
+
+OR
+
+Clone, go to the root directory
+
+```sh
+npm i
+npm run build
+npm run start
+```
