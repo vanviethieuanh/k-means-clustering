@@ -7,12 +7,11 @@ html, body {
 }
 
 body {
-	color: #333;
 	margin: 0;
 	padding: 0;
 	box-sizing: border-box;
 	font-family: 'Orbitron', sans-serif;
-	background-color: white;
+	background-color: #0d0d0d;
 }
 
 a {
@@ -48,7 +47,7 @@ input:disabled {
 }
 
 button {
-	color: #333;
+	color: rgb(153, 139, 139);
 	background-color: #f4f4f4;
 	outline: none;
 }

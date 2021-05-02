@@ -10,6 +10,7 @@
     } from '@snlab/florence'
     import { Print } from './store'
 
+    let canvasSize = Math.min(window.innerWidth, window.innerHeight) - 20
     let GRID_COLOR = '#80DDF2'
 
     let LABELS_AMOUNT = 3
@@ -34,6 +35,11 @@
     let RADIUS = MAX / 2 - 20
 
     // Functions
+    const graphSize = function () {
+        canvasSize = Math.min(window.innerWidth, window.innerHeight) - 20
+        console.log(canvasSize)
+    }
+
     const euclideanDistance = function (a, b) {
         let x = a.x - b.x
         let y = a.y - b.y
@@ -217,11 +223,13 @@
     }
 </script>
 
+<svelte:window on:resize={graphSize} />
+
 <main>
     <div class="graph">
         <Graphic
-            width={500}
-            height={500}
+            width={canvasSize}
+            height={canvasSize}
             scaleX={[-6, MAX + 6]}
             scaleY={[-6, MAX + 6]}
             flipY
@@ -290,8 +298,6 @@
 
 <style>
     main {
-        background-color: rgba(0, 0, 0, 0.95);
-
         width: 100vw;
         height: 100vh;
 
@@ -302,22 +308,13 @@
 
         display: grid;
         grid-template-columns: 1fr auto;
-        align-items: center;
     }
 
-    .controller {
-        height: fit-content;
-
-        display: flex;
-        flex-direction: column;
-        gap: 1rem;
-        align-items: center;
-        justify-content: center;
-    }
-
-    @media (min-width: 640px) {
+    /* Portrait */
+    @media only screen and (min-device-width: 375px) and (max-device-width: 812px) and (-webkit-min-device-pixel-ratio: 3) and (orientation: portrait) {
         main {
-            max-width: none;
+            grid-template-columns: auto;
+            grid-template-rows: auto 1fr;
         }
     }
 </style>

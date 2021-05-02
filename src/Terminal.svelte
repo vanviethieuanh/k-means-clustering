@@ -179,12 +179,15 @@
         </ul>
     </div>
 
-    <input bind:value={command} on:keypress={onKeyPress} />
+    <div class="prompt">
+        <p>USER></p>
+        <input bind:value={command} on:keypress={onKeyPress} />
+    </div>
 </div>
 
 <style>
     .terminal {
-        height: 100vh;
+        height: 100%;
         width: 45ch;
 
         display: grid;
@@ -204,6 +207,21 @@
         border-radius: 0;
 
         color: white;
+
+        margin: 0;
+    }
+
+    .prompt {
+        display: flex;
+        align-items: center;
+    }
+
+    .prompt > p {
+        color: white;
+        padding: 0;
+        margin: 0;
+
+        height: fit-content;
     }
 
     .logs {
@@ -240,5 +258,12 @@
 
         text-align: left;
         color: white;
+    }
+
+    @media only screen and (min-device-width: 375px) and (max-device-width: 812px) and (-webkit-min-device-pixel-ratio: 3) and (orientation: portrait) {
+        ul,
+        .prompt {
+            padding: 0 2rem;
+        }
     }
 </style>
